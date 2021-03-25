@@ -1,0 +1,13 @@
+-- DROP TABLE IF EXISTS players;
+
+-- CREATE TABLE players
+-- (
+--     index                     INT AUTO_INCREMENT PRIMARY KEY,
+--     id                        VARCHAR(250) NOT NULL UNIQUE,
+--     name_brief                VARCHAR(250) NOT NULL,
+--     first_name                VARCHAR(250) NOT NULL,
+--     last_name                 VARCHAR(250) NOT NULL,
+--     position                  VARCHAR(250) NOT NULL,
+--     age                       INT          NOT NULL,
+--     average_position_age_diff DOUBLE       NOT NULL
+-- );
