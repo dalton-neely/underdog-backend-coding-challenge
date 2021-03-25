@@ -15,14 +15,10 @@ public class CbsResponsePlayer {
   @JsonProperty("eligible_for_offense_and_defense")
   private int eligibleForOffenseAndDefense;
   private String id;
-  private String bats;
   private String lastname;
   private String photo;
   @JsonProperty("elias_id")
   private String eliasId;
-  @SuppressWarnings("SpellCheckingInspection")
-  @JsonProperty("throws")
-  private String throwz;
   private String firstname;
   @JsonProperty("pro_status")
   private String proStatus;

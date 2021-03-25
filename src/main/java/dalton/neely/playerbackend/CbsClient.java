@@ -17,18 +17,8 @@ public class CbsClient {
     this.restTemplate = restTemplate;
   }
   
-  public ResponseEntity<CbsResponse> getBaseballPlayers() throws URISyntaxException {
-    RequestEntity<CbsResponse> requestEntity = new RequestEntity<>(GET, new URI(constructUri(BASEBALL)));
-    return restTemplate.exchange(requestEntity, CbsResponse.class);
-  }
-  
-  public ResponseEntity<CbsResponse> getBasketballPlayers() throws URISyntaxException {
-    RequestEntity<CbsResponse> requestEntity = new RequestEntity<>(GET, new URI(constructUri(BASKETBALL)));
-    return restTemplate.exchange(requestEntity, CbsResponse.class);
-  }
-  
-  public ResponseEntity<CbsResponse> getFootballPlayers() throws URISyntaxException {
-    RequestEntity<CbsResponse> requestEntity = new RequestEntity<>(GET, new URI(constructUri(FOOTBALL)));
+  public ResponseEntity<CbsResponse> getPlayers(Sport sport) throws URISyntaxException {
+    RequestEntity<CbsResponse> requestEntity = new RequestEntity<>(GET, new URI(constructUri(sport)));
     return restTemplate.exchange(requestEntity, CbsResponse.class);
   }
   

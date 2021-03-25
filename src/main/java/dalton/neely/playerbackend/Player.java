@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Players {
+public class Player {
   @Id
   @GeneratedValue(strategy = AUTO)
   private long index;
@@ -35,8 +35,9 @@ public class Players {
   private int age;
   @JsonProperty(value = "average_position_age_diff")
   private double averagePositionAgeDiff;
+  private String sport;
   
-  public static Players fromCbsPlayer(CbsResponsePlayer player, Double diff){
+  public static Player fromCbsPlayer(CbsResponsePlayer player, Double diff, Sport sport){
     String nameBrief = "";
     String first = player.getFirstname().toUpperCase();
     String last = player.getLastname().toUpperCase();
@@ -49,7 +50,7 @@ public class Players {
       }
       nameBrief += last.charAt(0) + ".";
     }
-    return Players.builder()
+    return Player.builder()
         .id(player.getId())
         .nameBrief(nameBrief)
         .firstName(player.getFirstname())
@@ -57,6 +58,7 @@ public class Players {
         .position(player.getPosition())
         .age(player.getAge())
         .averagePositionAgeDiff(diff)
+        .sport(sport.toString())
         .build();
   }
 }

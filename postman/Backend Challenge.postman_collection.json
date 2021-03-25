@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "abb3eea3-76f0-4b24-98c7-d0bd1415e2a9",
+		"name": "Backend Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Search Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/search?sport=BASEBALL&lastInitial=A&age=35&position=RP&ageStart=30&ageEnd=40",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"search"
+					],
+					"query": [
+						{
+							"key": "sport",
+							"value": "BASEBALL"
+						},
+						{
+							"key": "lastInitial",
+							"value": "A"
+						},
+						{
+							"key": "age",
+							"value": "35"
+						},
+						{
+							"key": "position",
+							"value": "RP"
+						},
+						{
+							"key": "ageStart",
+							"value": "30"
+						},
+						{
+							"key": "ageEnd",
+							"value": "40"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lookup By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/players/2211792",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"players",
+						"2211792"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CBS API BASEBALL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.cbssports.com/fantasy/players/list?version=3.0&SPORT=baseball&response_format=JSON",
+					"protocol": "https",
+					"host": [
+						"api",
+						"cbssports",
+						"com"
+					],
+					"path": [
+						"fantasy",
+						"players",
+						"list"
+					],
+					"query": [
+						{
+							"key": "version",
+							"value": "3.0"
+						},
+						{
+							"key": "SPORT",
+							"value": "baseball"
+						},
+						{
+							"key": "response_format",
+							"value": "JSON"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CBS API BASKETBALL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.cbssports.com/fantasy/players/list?version=3.0&SPORT=basketball&response_format=JSON",
+					"protocol": "https",
+					"host": [
+						"api",
+						"cbssports",
+						"com"
+					],
+					"path": [
+						"fantasy",
+						"players",
+						"list"
+					],
+					"query": [
+						{
+							"key": "version",
+							"value": "3.0"
+						},
+						{
+							"key": "SPORT",
+							"value": "basketball"
+						},
+						{
+							"key": "response_format",
+							"value": "JSON"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CBS API FOOTBALL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.cbssports.com/fantasy/players/list?version=3.0&SPORT=football&response_format=JSON",
+					"protocol": "https",
+					"host": [
+						"api",
+						"cbssports",
+						"com"
+					],
+					"path": [
+						"fantasy",
+						"players",
+						"list"
+					],
+					"query": [
+						{
+							"key": "version",
+							"value": "3.0"
+						},
+						{
+							"key": "SPORT",
+							"value": "football"
+						},
+						{
+							"key": "response_format",
+							"value": "JSON"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CbsResponseIcons {
   private String headline;
+  private String injury;
 }

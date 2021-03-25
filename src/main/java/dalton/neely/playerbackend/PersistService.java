@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import static dalton.neely.playerbackend.Players.fromCbsPlayer;
+import static dalton.neely.playerbackend.Player.fromCbsPlayer;
 import static java.math.RoundingMode.HALF_UP;
 import static java.util.Objects.requireNonNull;
 
@@ -28,38 +28,40 @@ public class PersistService {
     this.averages = new HashMap<>();
   }
   
-  @Scheduled(fixedDelay = 30_000)
+  @Scheduled(fixedDelay = 900_000) // 15 minutes
   public void persist() throws URISyntaxException {
     System.out.println("Refreshing Database With Player Data...");
-    List<CbsResponsePlayer> players = requireNonNull(cbsClient.getBaseballPlayers().getBody()).getBody().getPlayers();
-    
-    for(CbsResponsePlayer player : players){
-      String currentPosition = player.getPosition();
-      int currentAge = player.getAge();
-      if(sums.containsKey(currentPosition)){
-        if(!playerRepository.existsByIdentification(player.getId())) {
-          amounts.replace(currentPosition, amounts.get(currentPosition) + 1);
-          sums.replace(currentPosition, sums.get(currentPosition) + currentAge);
+    for(Sport sport: Sport.values()) {
+      List<CbsResponsePlayer> players = requireNonNull(cbsClient.getPlayers(sport).getBody()).getBody().getPlayers();
+  
+      for (CbsResponsePlayer player : players) {
+        String currentPosition = player.getPosition();
+        int currentAge = player.getAge();
+        
+        if (sums.containsKey(currentPosition)) {
+            amounts.replace(currentPosition, amounts.get(currentPosition) + 1);
+            sums.replace(currentPosition, sums.get(currentPosition) + currentAge);
+        } else {
+          amounts.put(currentPosition, 1);
+          sums.put(currentPosition, currentAge);
         }
-      } else {
-        amounts.put(currentPosition, 1);
-        sums.put(currentPosition, currentAge);
       }
-    }
-    calculateAverages();
-    for(CbsResponsePlayer player : players){
-      Players entity = fromCbsPlayer(player, averages.get(player.getPosition()) - player.getAge());
-      if(!playerRepository.existsByIdentification(entity.getId())){
-        playerRepository.save(entity);
-      } else {
-        playerRepository.updateByIdentification(entity.getId(), entity.getNameBrief(), entity.getFirstName(), entity.getLastName(), entity.getPosition(), entity.getAge(), entity.getAveragePositionAgeDiff());
+      calculateAverages();
+      for (CbsResponsePlayer player : players) {
+        Player entity = fromCbsPlayer(player,  round(player.getAge() - averages.get(player.getPosition())), sport);
+        if (!playerRepository.existsByIdentification(entity.getId())) {
+          playerRepository.save(entity);
+        } else {
+          playerRepository.updateByIdentification(entity.getId(), entity.getNameBrief(), entity.getFirstName(), entity.getLastName(), entity.getPosition(), entity.getAge(), entity.getAveragePositionAgeDiff());
+        }
       }
+      reset();
     }
   }
   
-  private double round(double value, int places) {
+  private double round(double value) {
     BigDecimal bigDecimal = BigDecimal.valueOf(value);
-    bigDecimal = bigDecimal.setScale(places, HALF_UP);
+    bigDecimal = bigDecimal.setScale(2, HALF_UP);
     return bigDecimal.doubleValue();
   }
   
@@ -68,9 +70,14 @@ public class PersistService {
     for(String key: keys){
       int sum = sums.get(key);
       int amount = amounts.get(key);
-      double average = round((double) sum / amount, 2);
+      double average = round((double) sum / amount);
       averages.put(key, average);
-      System.out.println("Average age for the position " + key + " is " + average);
     }
+  }
+  
+  private void reset(){
+    this.sums.clear();
+    this.amounts.clear();
+    this.averages.clear();
   }
 }
